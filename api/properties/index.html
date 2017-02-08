@@ -69,31 +69,110 @@
 <h3>Parameters:</h3>
 
 <ul>
-<li><code>page</code> (optional) - The page to read</li>
-<li><code>limit</code> (optional) - </li>
+<li><code>page</code> (optional) - The (zero based) page number to read (Default 0)</li>
+<li><code>limit</code> (optional) - The number of properties to return (Default 20)</li>
 </ul>
 
 <h3>Returns:</h3>
 
 <ul>
-<li><code>property_id</code></li>
+<li><code>total_count</code> - Total number of properties</li>
+<li><code>count</code> - Number of properties returned</li>
+<li><code>properties</code> Array
+
+<ul>
+<li><code>property_id</code> - ID of the property</li>
+<li><code>address1</code> - Area address of the property</li>
+<li><code>address2</code> - Building and room address of the property</li>
+<li><code>nickname</code> - Nickname of the property</li>
+<li><code>has_ical</code> - <code>true</code> if this property has iCals provided for automatic booking</li>
+</ul></li>
 </ul>
 
-<h2><code>GET /properties/{id}</code></h2>
+<p>Example:</p>
 
-<h4>Load details about the booking</h4>
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/properties?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+    &quot;total_count&quot;: 55,
+    &quot;count&quot;: 2,
+    &quot;properties&quot;: [
+        {
+          &quot;property_id&quot;: 22,
+          &quot;address1&quot;: &quot;東京都港区魚5-6-7&quot;,
+          &quot;address2&quot;: &quot;マンション梅 UME 56&quot;,
+          &quot;nickname&quot;: &quot;momo&quot;,
+          &quot;has_ical&quot;: true
+        },
+        {
+          &quot;property_id&quot;: 181,
+          &quot;address1&quot;: &quot;東京都大田区蒲田1-25-11&quot;,
+          &quot;address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+          &quot;nickname&quot;: &quot;&quot;,
+          &quot;has_ical&quot;: true
+        }
+    ]
+}
+</code></pre>
+
+<h2><code>GET /properties/{property_id}</code></h2>
+
+<h4>Load details about the property</h4>
 
 <h3>Parameters:</h3>
 
 <ul>
-<li><code>booking_id</code> - The ID of the booking to be examined</li>
+<li><code>property_id</code> - The ID of the property to be examined</li>
 </ul>
 
 <h3>Returns:</h3>
 
 <ul>
-<li><code>id</code> - ID of the booking</li>
+<li><code>property_id</code> - ID of the property</li>
+<li><code>address1</code> - Area address of the property</li>
+<li><code>address2</code> - Building and room address of the property</li>
+<li><code>nickname</code> - Nickname of the property</li>
+<li><code>has_ical</code> - <code>true</code> if this property has iCals</li>
+<li><code>guide_url</code> - The guide URL of the property</li>
+<li><code>listing_url</code> - The listing URL of the property</li>
+<li><code>garbage</code> - The garbage instructions of the property</li>
+<li><code>enter_method</code> - Instructions on how to enter the property</li>
+<li><code>booking_count</code> - Number of future bookings for this property</li>
+<li><code>default_checkout_time</code> - The default check-out time for this property</li>
+<li><code>default_checkin_time</code> - The default check-in time for this property</li>
+<li><code>default_duration</code> - The default service time for this property</li>
+<li><code>default_prev_no_of_guests</code> - The default number of guests to clean up after</li>
+<li><code>default_next_no_of_guests</code> - The default number of guests to make the room for</li>
+<li><code>ical_links</code> Array - An array of iCal URLs provided for automatic booking</li>
 </ul>
+
+<p>Example:</p>
+
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/properties/181?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+  &quot;property_id&quot;: 181,
+  &quot;address1&quot;: &quot;東京都大田区蒲田1-25-11&quot;,
+  &quot;address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+  &quot;postal_code&quot;: &quot;160-0001&quot;,
+  &quot;nickname&quot;: &quot;&quot;,
+  &quot;has_ical&quot;: true,
+  &quot;guide_url&quot;: &quot;https://goo.gl/75wrw&quot;,
+  &quot;listing_url&quot;: &quot;https://www.airbnb.com/rooms/23982398&quot;,
+  &quot;garbage&quot;: &quot;Please separate the trash between hero trash and non-hero trash. Please do not break the Marvel heroes especially because they are fragile. Make sure that all DC heroes are thrown in the DC trashcan.&quot;,
+  &quot;enter_method&quot;: &quot;Answer the room manager&#39;s riddle and then tell him the password &#39;SHAMBALA&#39; and then he will open the room for you&quot;,
+  &quot;booking_count&quot;: 2,
+  &quot;default_checkout_time&quot;: &quot;10:00&quot;,
+  &quot;default_checkin_time&quot;: &quot;17:00&quot;,
+  &quot;default_duration&quot;: 135,
+  &quot;default_prev_no_of_guests&quot;: 2,
+  &quot;default_next_no_of_guests&quot;: 2,
+  &quot;ical_links&quot;: [
+    &quot;https://us.airbnb.com/calendar/ical/23982398.ics?s=32423423423434534634645645323433&quot;,
+    &quot;https://us.airbnb.com/calendar/ical/89523563.ics?s=23423423423423423423423423423423&quot;
+  ]
+}
+</code></pre>
 
 		</div>
 

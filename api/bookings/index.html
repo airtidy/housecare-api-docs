@@ -83,7 +83,8 @@
 <ul>
 <li><code>booking_id</code> - The booking ID</li>
 <li><code>property_id</code> - The property ID</li>
-<li><code>cleaner_id</code> - The cleaner ID</li>
+<li><code>property_address2</code> - The property address</li>
+<li><code>matched</code> - <code>true</code> if a cleaner has been matched to this booking</li>
 <li><code>start</code> - Start time of the booking</li>
 </ul></li>
 </ul>
@@ -93,15 +94,24 @@
 <pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/bookings?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
 
 {
-  &quot;total_count&quot;: 202,
-  &quot;count&quot;: 20,
-  &quot;bookings&quot;:
-    {
-      &quot;booking_id&quot;: 11269,
-      &quot;property_id&quot;: 1645,
-      &quot;cleaner_id&quot;: null,
-      &quot;start&quot;: &quot;2017-05-08T11:00:00.000+09:00&quot;
-    }
+    &quot;total_count&quot;: 203,
+    &quot;count&quot;: 2,
+    &quot;bookings&quot;: [
+        {
+            &quot;booking_id&quot;: 2345,
+            &quot;property_id&quot;: 181,
+            &quot;property_address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+            &quot;matched&quot;: false,
+            &quot;start&quot;: &quot;2017-05-08T11:00:00.000+09:00&quot;
+        },
+        {
+            &quot;booking_id&quot;: 5633,
+            &quot;property_id&quot;: 181,
+            &quot;property_address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+            &quot;matched&quot;: true,
+            &quot;start&quot;: &quot;2017-05-16T11:00:00.000+09:00&quot;
+        }
+    ]
 }
 </code></pre>
 
@@ -120,15 +130,39 @@
 <h3>Returns:</h3>
 
 <ul>
-<li><code>id</code> - ID of the booking</li>
+<li><code>booking_id</code> - ID of the booking</li>
+<li><code>property_id</code> - ID of the property</li>
+<li><code>property_address1</code> - Area address of the property</li>
+<li><code>property_address2</code> - Building and room address of the property</li>
+<li><code>postal_code</code> - Postcode of the property</li>
+<li><code>nickname</code> - Nickname of the property</li>
+<li><code>matched</code> - <code>true</code> if a cleaner has been matched to this booking</li>
+<li><code>start</code> - Start time of the booking</li>
+<li><code>checkout_time</code> - Check-out time of the booking</li>
+<li><code>checkin_time</code> - Check-in time of the booking on the same day (null if not same day check-in)</li>
+<li><code>duration</code> - Duration of the service time in minutes</li>
+<li><code>prev_no_of_guests</code> - Number of guests to clean up after</li>
+<li><code>next_no_of_guests</code> - Number of guests to make the room for</li>
 </ul>
 
 <p>Example:</p>
 
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/bookings/17112?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/bookings/2345?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
 
 {
-    &quot;id&quot;: 17112
+    &quot;booking_id&quot;: 2345,
+    &quot;property_id&quot;: 181,
+    &quot;property_address1&quot;: &quot;東京都大田区蒲田1-25-11&quot;,
+    &quot;property_address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+    &quot;postal_code&quot;: &quot;160-0001&quot;,
+    &quot;nickname&quot;: &quot;&quot;,
+    &quot;matched&quot;: false,
+    &quot;start&quot;: &quot;2017-05-07T20:00:00.000+09:00&quot;,
+    &quot;checkout_time&quot;: &quot;11:00&quot;,
+    &quot;checkin_time&quot;: null,
+    &quot;duration&quot;: 135,
+    &quot;prev_no_of_guests&quot;: 2,
+    &quot;next_no_of_guests&quot;: 3
 }
 </code></pre>
 
@@ -142,6 +176,13 @@
 
 <ul>
 <li><code>property_id</code> - The property ID to make the booking on</li>
+<li><code>day</code> - The day the cleaning is needed on</li>
+<li><code>month</code> - The month the cleaning is needed on</li>
+<li><code>year</code> - The year the cleaning is needed on</li>
+<li><code>hours</code> (optional) - The hour the cleaning is needed on</li>
+<li><code>minutes</code> (optional) - The minute the cleaning is needed on</li>
+<li><code>prev_guest_count</code> (optional) - Number of guests to clean up after</li>
+<li><code>next_guest_count</code> (optional) - Number of guests to make the room for</li>
 </ul>
 
 <h3>Returns:</h3>
@@ -153,9 +194,17 @@
 
 <p>Example:</p>
 
+<pre><code>$ curl -X POST --header &#39;Content-Type: application/x-www-form-urlencoded&#39; --header &#39;Accept: application/json&#39; -d &#39;property_id=181&amp;day=7&amp;month=5&amp;year=2017&#39; &#39;https://housecare.tokyo/api/bookings?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+    &quot;booking_id&quot;: 2346,
+    &quot;surge_factor&quot;: &quot;1.0&quot;
+}
+</code></pre>
+
 <hr>
 
-<h2><code>DELETE /bookings/{id}</code></h2>
+<h2><code>DELETE /bookings/{booking_id}</code></h2>
 
 <h4>Cancel a booking</h4>
 
@@ -168,10 +217,19 @@
 <h3>Returns:</h3>
 
 <ul>
-<li><code>booking_id</code></li>
+<li><code>booking_id</code> - ID of the booking</li>
+<li><code>cancelled</code> - <code>true</code> if cancellation is successful</li>
 </ul>
 
 <p>Example:</p>
+
+<pre><code>$ curl -X DELETE --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/    bookings/2345?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+  &quot;booking_id&quot;: 2345,
+  &quot;cancelled&quot;: true
+}
+</code></pre>
 
 		</div>
 
