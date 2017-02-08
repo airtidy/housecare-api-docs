@@ -36,7 +36,7 @@
 				<ul class="nav" id="side-menu">
 
 
-<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa fa-angle-right"></i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa fa-angle-right"></i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa fa-angle-right"></i><span class="nav-label"> - Session</span></a></li>
+<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li>
 
 				</ul>
 			</div>
@@ -54,24 +54,24 @@
 	        </div>
 	<div class="row wrapper border-bottom white-bg page-heading" style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1>HouseCare API Documentation</h1>
+			<img class="img-responsive " src="/images/housecare-logo.png" style="" />
 		</div>
 
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h2><code>POST /session</code></h2>
+			<h1><code>POST /session</code></h1>
 
-<h4>Create an api session token (Log in to HouseCare)</h4>
+<h3>Create an api session token (Log in to HouseCare)</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>email</code> - The email address of the account</li>
 <li><code>password</code> - The password of the account</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>api_token</code> - The API token of the session created</li>
@@ -97,17 +97,17 @@
 
 <hr>
 
-<h2><code>GET /session</code></h2>
+<h1><code>GET /session</code></h1>
 
-<h4>Check that the api session token is valid</h4>
+<h3>Check that the api session token is valid</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>api_token</code> - The API token</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>message</code> - Will be &quot;Logged in&quot; if the API token is valid for use. This member will only be returned if the HTTP status code is 200</li>
@@ -134,17 +134,17 @@
 
 <hr>
 
-<h2><code>DELETE /session</code></h2>
+<h1><code>DELETE /session</code></h1>
 
-<h4>Revoke an api session token (Log out of HouseCare)</h4>
+<h3>Revoke an api session token (Log out of HouseCare)</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>api_token</code> - The API token</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <p>The response is empty and the HTTP status code will be 204 when the logout is successful</p>
 

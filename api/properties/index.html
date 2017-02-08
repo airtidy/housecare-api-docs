@@ -36,7 +36,7 @@
 				<ul class="nav" id="side-menu">
 
 
-<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa fa-angle-right"></i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa fa-angle-right"></i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa fa-angle-right"></i><span class="nav-label"> - Session</span></a></li>
+<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li>
 
 				</ul>
 			</div>
@@ -54,26 +54,26 @@
 	        </div>
 	<div class="row wrapper border-bottom white-bg page-heading" style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1>HouseCare API Documentation</h1>
+			<img class="img-responsive " src="/images/housecare-logo.png" style="" />
 		</div>
 
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h2><code>GET /properties</code></h2>
+			<h1><code>GET /properties</code></h1>
 
-<h4>Get all unclosed properties</h4>
+<h3>Get all unclosed properties</h3>
 
 <p>Since the user may have many properties, not all the properties will be returned in one API call. It is possible to see other properties by providing a page parameter</p>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>page</code> (optional) - The (zero based) page number to read (Default 0)</li>
 <li><code>limit</code> (optional) - The number of properties to return (Default 20)</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>total_count</code> - Total number of properties</li>
@@ -115,17 +115,17 @@
 }
 </code></pre>
 
-<h2><code>GET /properties/{property_id}</code></h2>
+<h1><code>GET /properties/{property_id}</code></h1>
 
-<h4>Load details about the property</h4>
+<h3>Load details about the property</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>property_id</code> - The ID of the property to be examined</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>property_id</code> - ID of the property</li>

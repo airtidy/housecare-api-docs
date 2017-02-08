@@ -36,7 +36,7 @@
 				<ul class="nav" id="side-menu">
 
 
-<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa fa-angle-right"></i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa fa-angle-right"></i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa fa-angle-right"></i><span class="nav-label"> - Session</span></a></li>
+<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li>
 
 				</ul>
 			</div>
@@ -54,26 +54,26 @@
 	        </div>
 	<div class="row wrapper border-bottom white-bg page-heading" style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1>HouseCare API Documentation</h1>
+			<img class="img-responsive " src="/images/housecare-logo.png" style="" />
 		</div>
 
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h2><code>GET /bookings</code></h2>
+			<h1><code>GET /bookings</code></h1>
 
-<h4>Get all future uncancelled bookings</h4>
+<h3>Get all future uncancelled bookings</h3>
 
 <p>Since the user may have many bookings </p>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>page</code> (optional) - The page to read</li>
 <li><code>limit</code> (optional) - </li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>total_count</code> - The total number of bookings made by the User</li>
@@ -117,17 +117,17 @@
 
 <hr>
 
-<h2><code>GET /bookings/{booking_id}</code></h2>
+<h1><code>GET /bookings/{booking_id}</code></h1>
 
-<h4>Load details about the booking</h4>
+<h3>Load details about the booking</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>booking_id</code> - The ID of the booking to be examined</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>booking_id</code> - ID of the booking</li>
@@ -168,11 +168,11 @@
 
 <hr>
 
-<h2><code>POST /bookings</code></h2>
+<h1><code>POST /bookings</code></h1>
 
-<h4>Create a booking</h4>
+<h3>Create a booking</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>property_id</code> - The property ID to make the booking on</li>
@@ -185,7 +185,7 @@
 <li><code>next_guest_count</code> (optional) - Number of guests to make the room for</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>booking_id</code> - The ID of the new booking</li>
@@ -204,17 +204,17 @@
 
 <hr>
 
-<h2><code>DELETE /bookings/{booking_id}</code></h2>
+<h1><code>DELETE /bookings/{booking_id}</code></h1>
 
-<h4>Cancel a booking</h4>
+<h3>Cancel a booking</h3>
 
-<h3>Parameters:</h3>
+<h2>Parameters:</h2>
 
 <ul>
 <li><code>booking_id</code> - The booking ID to be cancelled</li>
 </ul>
 
-<h3>Returns:</h3>
+<h2>Returns:</h2>
 
 <ul>
 <li><code>booking_id</code> - ID of the booking</li>

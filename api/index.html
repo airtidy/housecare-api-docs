@@ -36,7 +36,7 @@
 				<ul class="nav" id="side-menu">
 
 
-<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa fa-angle-right"></i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa fa-angle-right"></i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa fa-angle-right"></i><span class="nav-label"> - Session</span></a></li>
+<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li>
 
 				</ul>
 			</div>
@@ -54,13 +54,13 @@
 	        </div>
 	<div class="row wrapper border-bottom white-bg page-heading" style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1>HouseCare API Documentation</h1>
+			<img class="img-responsive " src="/images/housecare-logo.png" style="" />
 		</div>
 
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h2>HouseCare API endpoint</h2>
+			<h1>HouseCare API endpoint</h1>
 
 <p><code>https://housecare.tokyo/api</code></p>
 
@@ -68,11 +68,65 @@
 <p>It is highly recommended that the HTTPS endpoint for the HouseCare API be used because your sensitive information will be transmitted via plaintext otherwise, allowing wiretappers and other third parties to read this information.</p>
 </blockquote>
 
-<h2>Authentication flow</h2>
+<p>In each of the API methods we provide an <code>curl</code> commandline call to the API to demonstrate concisely all the required information for making an API call successfully.</p>
+
+<h1>Authentication flow</h1>
 
 <p>Authentication on the HouseCare API is done by logging on and off using the sessions API. By logging on you will receive an API token that can be used to perform other functions on the website including logging off.</p>
 
 <p>In all API calls except sessions, the <code>api_token</code> parameter is always required.</p>
+
+<h2>Example exchange:</h2>
+
+<p>John smith logs in</p>
+
+<pre><code>$ curl -X POST --header &#39;Content-Type: application/x-www-form-urlencoded&#39; --header &#39;Accept: application/json&#39; -d &#39;email=johnsmith%40housecare.tokyo&amp;password=abcabcabcabc&#39; &#39;https://housecare.tokyo/api/session&#39;
+
+{
+    &quot;api_token&quot;: &quot;7VLnHV9Pg6S5xA9-9_a8&quot;
+}
+</code></pre>
+
+<p>Makes a booking</p>
+
+<pre><code>$ curl -X POST --header &#39;Content-Type: application/x-www-form-urlencoded&#39; --header &#39;Accept: application/json&#39; -d &#39;property_id=181&amp;day=7&amp;month=5&amp;year=2017&#39; &#39;https://housecare.tokyo/api/bookings?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+    &quot;booking_id&quot;: 2346,
+    &quot;surge_factor&quot;: &quot;1.0&quot;
+}
+</code></pre>
+
+<p>Checks his new booking&#39;s information</p>
+
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/bookings/2346?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+    &quot;booking_id&quot;: 2346,
+    &quot;property_id&quot;: 181,
+    &quot;property_address1&quot;: &quot;東京都大田区蒲田1-25-11&quot;,
+    &quot;property_address2&quot;: &quot;アーユーキッディング 1M（ブラインド）&quot;,
+    &quot;postal_code&quot;: &quot;160-0001&quot;,
+    &quot;nickname&quot;: &quot;&quot;,
+    &quot;matched&quot;: false,
+    &quot;start&quot;: &quot;2017-05-07T11:00:00.000+09:00&quot;,
+    &quot;checkout_time&quot;: &quot;11:00&quot;,
+    &quot;checkin_time&quot;: null,
+    &quot;duration&quot;: 135,
+    &quot;prev_no_of_guests&quot;: 2,
+    &quot;next_no_of_guests&quot;: 3
+}
+</code></pre>
+
+<p>And then logs out</p>
+
+<pre><code>$ curl -X DELETE --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/    bookings/2345?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+    &quot;booking_id&quot;: 2345,
+    &quot;cancelled&quot;: true
+}
+</code></pre>
 
 		</div>
 
