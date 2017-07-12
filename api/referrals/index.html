@@ -60,104 +60,64 @@
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1><code>POST /session</code></h1>
+			<h1><code>GET /referrals</code></h1>
 
-<h3>Create an api session token (Log in to HouseCare)</h3>
-
-<h2>Parameters:</h2>
-
-<ul>
-<li><code>email</code> - The email address of the account</li>
-<li><code>password</code> - The password of the account</li>
-</ul>
+<h3>Create a referral token to give to a potential customer</h3>
 
 <h2>Returns:</h2>
 
 <ul>
-<li><code>api_token</code> - The API token of the session created</li>
+<li><code>ref</code> - The referral code. Simply add it to a link such as <code>https://housecare.tokyo/ja/?ref=abcdefghijkl</code>. The customer needs to sign up after being given this link. If the customer signs up before this link is given to him, then the referral is invalid.</li>
 </ul>
 
 <p>Example:</p>
 
-<pre><code>$ curl -X POST --header &#39;Content-Type: application/x-www-form-urlencoded&#39; --header &#39;Accept: application/json&#39; -d &#39;email=johnsmith%40housecare.tokyo&amp;password=abcabcabcabc&#39; &#39;https://housecare.tokyo/api/session&#39;
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals?api_token=7VLnggggg6S5xA9-9_a8&#39;
 
 {
-    &quot;api_token&quot;: &quot;7VLnHV9Pg6S5xA9-9_a8&quot;
+  &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
 }
 </code></pre>
 
-<p>Example error:</p>
+<h1><code>GET /referrals/subscribed</code></h1>
 
-<pre><code>$ curl -X POST --header &#39;Content-Type: application/x-www-form-urlencoded&#39; --header &#39;Accept: application/json&#39; -d &#39;email=pikachu%40housecare.tokyo&amp;password=pikapikachu&#39; &#39;https://housecare.tokyo/api/session&#39;
-
-{
-    &quot;error&quot;: &quot;Invalid Email or Password.&quot;
-}
-</code></pre>
-
-<hr>
-
-<h1><code>GET /session</code></h1>
-
-<h3>Check that the api session token is valid</h3>
+<h3>Get users who were referred by you and subscribed</h3>
 
 <h2>Parameters:</h2>
 
 <ul>
-<li><code>api_token</code> - The API token</li>
+<li><code>month</code> (optional) - 0 for current month, -1 for previous month, -2 for previous previous month etc..</li>
 </ul>
 
 <h2>Returns:</h2>
 
 <ul>
-<li><code>message</code> - Will be &quot;Logged in&quot; if the API token is valid for use. This member will only be returned if the HTTP status code is 200</li>
-<li><code>error</code> - An error message if the API token is invalid. This member will not be returned if the HTTP status code is 200</li>
+<li><code>subscribed</code> - Array
+
+<ul>
+<li><code>id</code> - User ID who was referred</li>
+<li><code>created_at</code> - Time the subscription was made</li>
+<li><code>ref</code> - The referral code</li>
+</ul></li>
 </ul>
 
 <p>Example:</p>
 
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/session?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals/subscribed?month=0&amp;api_token=7VLnggggg6S5xA9-9_a8&#39;
 
 {
-    &quot;message&quot;: &quot;Logged in&quot;
-}
-</code></pre>
-
-<p>Example error:</p>
-
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/session?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
-
-{
-    &quot;error&quot;: &quot;Not logged in&quot;
-}
-</code></pre>
-
-<hr>
-
-<h1><code>DELETE /session</code></h1>
-
-<h3>Revoke an api session token (Log out of HouseCare)</h3>
-
-<h2>Parameters:</h2>
-
-<ul>
-<li><code>api_token</code> - The API token</li>
-</ul>
-
-<h2>Returns:</h2>
-
-<p>The response is empty and the HTTP status code will be 204 when the logout is successful</p>
-
-<ul>
-<li><code>error</code> - An error message if the API token is invalid. This member will not be returned if the HTTP status code is 204</li>
-</ul>
-
-<p>Example error:</p>
-
-<pre><code>$ curl -X DELETE --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/session?api_token=TVLBnewe2323&#39;
-
-{
-    &quot;error&quot;: &quot;Not logged in&quot;
+  &quot;subscribed&quot;: [
+    {
+      &quot;id&quot;: 3581,
+      &quot;created_at&quot;: &quot;2017-07-12T17:42:44.645+09:00&quot;,
+      &quot;ref&quot;: &quot;fdffe10593b4853b0205&quot;
+    },
+    {
+      &quot;id&quot;: 3582,
+      &quot;created_at&quot;: &quot;2017-08-12T17:42:44.645+09:00&quot;,
+      &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
+    }
+  ]
 }
 </code></pre>
 
