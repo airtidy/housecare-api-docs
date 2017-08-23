@@ -8,14 +8,14 @@
 
     <title>HouseCare API</title>
 
-    <link href="../../css/bootstrap.min.css" rel="stylesheet">
-    <link href="../../font-awesome/css/font-awesome.css" rel="stylesheet">
-    <link href="../../css/plugins/iCheck/custom.css" rel="stylesheet">
+    <link href="../css/bootstrap.min.css" rel="stylesheet">
+    <link href="../font-awesome/css/font-awesome.css" rel="stylesheet">
+    <link href="../css/plugins/iCheck/custom.css" rel="stylesheet">
 
-    	<link href="../../css/style.css" rel="stylesheet">
+    	<link href="../css/style.css" rel="stylesheet">
 
 
-    <link href="../../css/animate.css" rel="stylesheet">
+    <link href="../css/animate.css" rel="stylesheet">
     
 
     
@@ -60,39 +60,53 @@
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1><code>POST /users/sign_up</code></h1>
+			<h1>API Usage Documentation</h1>
 
-<h3>Create a user</h3>
+<p>This API usage documentation will demonstrate how the API should be used</p>
 
-<p>Create a user with the provided information. The user is created first with no password, and when the user signs up the user is then sent an e-mail for the user to setup his password.</p>
+<h1>Testing server</h1>
 
-<p><em>note on testing environments:</em> Instead of sending an e-mail for the user a set password e-mail, testing environments will automatically set the password to <code>placeholderpassword</code>.</p>
+<p>For now we don&#39;t have a testing server so our testing servers are staging servers. The endpoint for our staging servers is:</p>
 
-<h2>Parameters:</h2>
+<p><code>
+http://staging.housecare.tokyo/api
+</code></p>
 
-<ul>
-<li><code>first_name</code> - User&#39;s first name</li>
-<li><code>last_name</code> - User&#39;s last name</li>
-<li><code>email</code> - User&#39;s e-mail address. This e-mail address is where the setup password e-mail will be sent</li>
-<li><code>phone</code> - User&#39;s phone number. This is required for HouseCare to contact the user in case of trouble (keys to the room not found, an emergency happens in the room, etc...)</li>
-</ul>
+<h1>User add workflow</h1>
 
-<h2>Returns:</h2>
+<p>When a user wishes to perform cleanings with us, please register them with their username using</p>
 
-<ul>
-<li><code>user_id</code> - The ID of the user.</li>
-<li><code>api_token</code> - The API token that can be used to perform bookings on behalf of this user.</li>
-</ul>
+<p><a href="/api/users"><code>POST /users/sign_up</code></a></p>
 
-<p>Example:</p>
+<p>You will receive an API token with that that you can use to perform API calls on the user&#39;s behalf.</p>
 
-<pre><code>$ curl -X POST --header &#39;Accept: application/json&#39; -d &#39;first_name=John&amp;last_name=Smith&amp;email=johnsmith%example.com&amp;phone=0355512345&#39; &#39;https://housecare.tokyo/api/users/sign_up&#39;
+<p><em>Note:</em> There is no way at the moment for existing users to connect but that is on the roadmap.</p>
 
-{
-  &quot;user_id&quot;: 2586,
-  &quot;api_token&quot;: &quot;7VLnggggg6S5xA9-9_a8&quot;
-}
-</code></pre>
+<h1>Property add workflow</h1>
+
+<p>When a user wishes to add his properties to clean, please use this to add the property:</p>
+
+<p><a href="/api/properties"><code>POST /properties/create_airbnb</code></a></p>
+
+<p>There may be a few fields that require a user&#39;s input such as explanations about how to enter the room, the customer guide and throw garbage away.</p>
+
+<p>In addition you need to create an estimate for the room. This is done by requesting the information required for the room via:</p>
+
+<p><a href="/api/estimates"><code>GET /estimates/required_fields</code></a></p>
+
+<p>and post the required fields in to create the estimate:</p>
+
+<p><a href="/api/estimates"><code>POST /estimates</code></a></p>
+
+<p>Once this is done, it is then possible to create bookings.</p>
+
+<h1>Booking a cleaning</h1>
+
+<p>When you require a cleaning simply call this API:</p>
+
+<p><a href="/api/bookings"><code>POST /bookings</code></a></p>
+
+<p>and insert the required information start date and if possible previous and next guest numbers.</p>
 
 		</div>
 
@@ -104,18 +118,18 @@
 </div>
 
     <!-- Mainly scripts -->
-    <script src="../../js/jquery-2.1.1.js"></script>
-    <script src="../../js/jquery-ui-1.10.4.min.js"></script>
-    <script src="../../js/bootstrap.min.js"></script>
-    <script src="../../js/plugins/metisMenu/jquery.metisMenu.js"></script>
-    <script src="../../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+    <script src="../js/jquery-2.1.1.js"></script>
+    <script src="../js/jquery-ui-1.10.4.min.js"></script>
+    <script src="../js/bootstrap.min.js"></script>
+    <script src="../js/plugins/metisMenu/jquery.metisMenu.js"></script>
+    <script src="../js/plugins/slimscroll/jquery.slimscroll.min.js"></script>
 
 
 
 
 
     <!-- Custom and plugin javascript -->
-    <script src="../../js/inspinia.js"></script>
+    <script src="../js/inspinia.js"></script>
     <script src="#{mod}js/plugins/pace/pace.min.js"></script>
 
     <script>
