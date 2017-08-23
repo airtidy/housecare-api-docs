@@ -36,7 +36,7 @@
 				<ul class="nav" id="side-menu">
 
 
-<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/referrals"><i class="fa">>R</i><span class="nav-label"> - Referrals</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li>
+<li ><a href="/"><i class="fa fa-home"></i><span class="nav-label">Home</span></a></li><li ><a href="/api"><i class="fa fa-th"></i><span class="nav-label">API Reference</span></a></li><li ><a href="/api/bookings"><i class="fa">>B</i><span class="nav-label"> - Bookings</span></a></li><li ><a href="/api/estimates"><i class="fa">>E</i><span class="nav-label"> - Estimates</span></a></li><li ><a href="/api/properties"><i class="fa">>P</i><span class="nav-label"> - Properties</span></a></li><li ><a href="/api/referrals"><i class="fa">>R</i><span class="nav-label"> - Referrals</span></a></li><li ><a href="/api/session"><i class="fa">>S</i><span class="nav-label"> - Session</span></a></li><li ><a href="/api/users"><i class="fa">>U</i><span class="nav-label"> - Users</span></a></li>
 
 				</ul>
 			</div>
@@ -60,7 +60,83 @@
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1><code>GET /properties</code></h1>
+			<h1><code>POST /properties/create_airbnb</code></h1>
+
+<h3>Create Airbnb-type property</h3>
+
+<p>Create an Airbnb-type (Minpaku type) property. Airbnb-type properties are defined by the need for additional information (in addition to address) for cleaning, refills and coin laundry.</p>
+
+<blockquote>
+<p>Note that there are several things required before a Property can have bookings: <code>enter_method</code>, <code>guide_url</code>, <code>garbage</code> must be set and an <a href="/api/estimates">Estimate</a> must be created on the property. These parameters do not have to be present when creating a property, but they must be set before a booking can be made.</p>
+</blockquote>
+
+<h2>Parameters:</h2>
+
+<ul>
+<li><code>postal_code</code> - The postal code of the property. Must be formatted &#39;xxx-xxxx&#39; with no 〒 sign.</li>
+<li><code>address1</code> - The section of the address up to chome e.g.: &quot;東京都渋谷区恵比寿三丁目&quot; (please do not enter the remaining address as it is displayed to all cleaners)</li>
+<li><code>address2</code> - The remaining part of the address. (This part is only displayed to cleaners who have taken the job.)</li>
+<li><code>checkout_time</code> - Checkout time. This must be formatted xx:xx in 24-hour time format. e.g.: &quot;15:00&quot; for 3 pm</li>
+<li><code>checkin_time</code> - Checkout time. This must be formatted xx:xx in 24-hour time format. e.g.: &quot;11:00&quot; for 11 am</li>
+<li><code>listing_url</code> - The URL to the Airbnb/Homeaway or any other short-term rental listing site.</li>
+<li><code>enter_method</code> (optional but <em>required for booking</em>) - An explanation on how to enter the property.</li>
+<li><code>guide_url</code> (optional but <em>required for booking</em>) - A URL to the customer guide to the property.</li>
+<li><code>garbage</code> (optional but <em>required for booking</em>) - An explanation of how to dispose of garbage.</li>
+<li><code>nickname</code> (optional) - A nickname for the property.</li>
+</ul>
+
+<h2>Returns:</h2>
+
+<ul>
+<li><code>property_id</code> - The ID of the property</li>
+</ul>
+
+<p>Example:</p>
+
+<pre><code>$ curl -X POST --header &#39;Accept: application/json&#39; -d &#39;postal_code=192-0782&amp;address1=%E6%9D%B1%E4%BA%AC%E9%83%BD%E6%B8%8B%E8%B0%B7%E5%8C%BA%E6%81%B5%E6%AF%94%E5%AF%BF%EF%BC%93%E4%B8%81%E7%9B%AE&amp;address2=%EF%BC%92%E2%88%92%EF%BC%93%20%E7%9B%AE%E9%BB%92%E3%83%9E%E3%83%B3%E3%82%B7%E3%83%A7%E3%83%B3%E3%80%80%EF%BC%95%EF%BC%90%EF%BC%96&amp;checkout_time=10%3A00&amp;checkin_time=18%3A00&amp;enter_method=Please%20enter%20via%20the%20back%20entrance&amp;nickname=Meguro%20Mansion&amp;guide_url=https%3A%2F%2Ffake_url&amp;listing_url=https%3A%2F%2Fairbnb.com%2F1231231312&amp;garbage=Please%20place%20garbage%20on%20the%20balcony.&#39; &#39;https://housecare.tokyo/api/properties/create_airbnb?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+  &quot;property_id&quot;: 2481
+}
+</code></pre>
+
+<h1><code>POST /properties/edit_airbnb/{property_id}</code></h1>
+
+<h3>Edit Airbnb-type property</h3>
+
+<p>Modify or update the information of an Airbnb-type property. Simply pass in only the parameters you wish to modify.</p>
+
+<h2>Parameters:</h2>
+
+<ul>
+<li><code>postal_code</code> - (optional) The postal code of the property. Must be formatted &#39;xxx-xxxx&#39; with no 〒 sign.</li>
+<li><code>address1</code> - (optional) The section of the address up to chome e.g.: &quot;東京都渋谷区恵比寿三丁目&quot; (please do not enter the remaining address as it is displayed to all cleaners)</li>
+<li><code>address2</code> - (optional) The remaining part of the address. (This part is only displayed to cleaners who have taken the job.)</li>
+<li><code>checkout_time</code> - (optional) Checkout time. This must be formatted xx:xx in 24-hour time format. e.g.: &quot;15:00&quot; for 3 pm</li>
+<li><code>checkin_time</code> - (optional) Checkout time. This must be formatted xx:xx in 24-hour time format. e.g.: &quot;11:00&quot; for 11 am</li>
+<li><code>listing_url</code> - (optional) The URL to the Airbnb/Homeaway or any other short-term rental listing site.</li>
+<li><code>enter_method</code> (optional) - An explanation on how to enter the property.</li>
+<li><code>guide_url</code> (optional) - A URL to the customer guide to the property.</li>
+<li><code>garbage</code> (optional) - An explanation of how to dispose of garbage.</li>
+<li><code>nickname</code> (optional) - A nickname for the property.</li>
+</ul>
+
+<h2>Returns:</h2>
+
+<ul>
+<li><code>property_id</code> - The ID of the property</li>
+</ul>
+
+<p>Example:</p>
+
+<pre><code>$ curl -X POST --header &#39;Accept: application/json&#39; -d &#39;postal_code=192-0782&#39; &#39;https://housecare.tokyo/api/properties/edit_airbnb?api_token=7VLnHV9Pg6S5xA9-9_a8&#39;
+
+{
+  &quot;property_id&quot;: 2481
+}
+</code></pre>
+
+<h1><code>GET /properties</code></h1>
 
 <h3>Get all unclosed properties</h3>
 
@@ -173,6 +249,12 @@
     ]
 }
 </code></pre>
+
+<h1><code>DELETE /properties/{property_id}</code></h1>
+
+<h3>Close property</h3>
+
+<p>Not implemented</p>
 
 		</div>
 

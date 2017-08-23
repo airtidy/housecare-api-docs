@@ -60,64 +60,35 @@
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1><code>GET /referrals</code></h1>
+			<h1><code>POST /users/sign_up</code></h1>
 
-<h3>Create a referral token to give to a potential customer</h3>
+<h3>Create a user</h3>
 
-<h2>Returns:</h2>
+<p>Create a user with the provided information. The user is created first with no password, and when the user signs up the user is then sent an e-mail for the user to setup his password.</p>
 
-<ul>
-<li><code>ref</code> - The referral code. Simply add it to a link such as <code>https://housecare.tokyo/ja/?ref=abcdefghijkl</code>. The customer needs to sign up after being given this link. If the customer signs up before this link is given to him, then the referral is invalid.</li>
-</ul>
-
-<p>Example:</p>
-
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals?api_token=7VLnggggg6S5xA9-9_a8&#39;
-
-{
-  &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
-}
-</code></pre>
-
-<h1><code>GET /referrals/subscribed</code></h1>
-
-<h3>Get users who were referred by you and subscribed</h3>
+<p><em>note on testing environments:</em> Instead of sending an e-mail for the user a set password e-mail, testing environments will automatically set the password to <code>placeholderpassword</code>.</p>
 
 <h2>Parameters:</h2>
 
 <ul>
-<li><code>month</code> (optional) - 0 for current month, -1 for previous month, -2 for previous previous month etc..</li>
+<li><code>first_name</code> - User&#39;s first name</li>
+<li><code>last_name</code> - User&#39;s last name</li>
+<li><code>email</code> - User&#39;s e-mail address. This e-mail address is where the setup password e-mail will be sent</li>
+<li><code>phone</code> - User&#39;s phone number. This is required for HouseCare to contact the user in case of trouble (keys to the room not found, an emergency happens in the room, etc...)</li>
 </ul>
 
 <h2>Returns:</h2>
 
 <ul>
-<li><code>subscribed</code> - Array
-
-<ul>
-<li><code>id</code> - User ID who was referred</li>
-<li><code>created_at</code> - Time the subscription was made</li>
-<li><code>ref</code> - The referral code</li>
-</ul></li>
+<li><code>user_id</code> - The ID of the user</li>
 </ul>
 
 <p>Example:</p>
 
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals/subscribed?month=0&amp;api_token=7VLnggggg6S5xA9-9_a8&#39;
+<pre><code>$ curl -X POST --header &#39;Accept: application/json&#39; -d &#39;first_name=John&amp;last_name=Smith&amp;email=johnsmith%example.com&amp;phone=0355512345&#39; &#39;https://housecare.tokyo/api/users/sign_up&#39;
 
 {
-  &quot;subscribed&quot;: [
-    {
-      &quot;id&quot;: 3581,
-      &quot;created_at&quot;: &quot;2017-07-12T17:42:44.645+09:00&quot;,
-      &quot;ref&quot;: &quot;fdffe10593b4853b0205&quot;
-    },
-    {
-      &quot;id&quot;: 3582,
-      &quot;created_at&quot;: &quot;2017-08-12T17:42:44.645+09:00&quot;,
-      &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
-    }
-  ]
+  &quot;user_id&quot;: 2586
 }
 </code></pre>
 

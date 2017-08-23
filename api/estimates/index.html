@@ -60,64 +60,80 @@
 	</div>
 	<div class="row " style="">
 		<div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 ">
-			<h1><code>GET /referrals</code></h1>
+			<h1><code>GET /estimates/required_fields</code></h1>
 
-<h3>Create a referral token to give to a potential customer</h3>
-
-<h2>Returns:</h2>
-
-<ul>
-<li><code>ref</code> - The referral code. Simply add it to a link such as <code>https://housecare.tokyo/ja/?ref=abcdefghijkl</code>. The customer needs to sign up after being given this link. If the customer signs up before this link is given to him, then the referral is invalid.</li>
-</ul>
-
-<p>Example:</p>
-
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals?api_token=7VLnggggg6S5xA9-9_a8&#39;
-
-{
-  &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
-}
-</code></pre>
-
-<h1><code>GET /referrals/subscribed</code></h1>
-
-<h3>Get users who were referred by you and subscribed</h3>
+<h3>Gets the required fields</h3>
 
 <h2>Parameters:</h2>
 
 <ul>
-<li><code>month</code> (optional) - 0 for current month, -1 for previous month, -2 for previous previous month etc..</li>
+<li><code>language</code> - Language used to display choices. Only <code>en</code> or <code>ja</code> supported</li>
 </ul>
 
 <h2>Returns:</h2>
 
 <ul>
-<li><code>subscribed</code> - Array
+<li>Array
 
 <ul>
-<li><code>id</code> - User ID who was referred</li>
-<li><code>created_at</code> - Time the subscription was made</li>
-<li><code>ref</code> - The referral code</li>
+<li><code>parameter</code> - The name of the parameter required for estimation</li>
+<li><code>description</code> - A short human-readable description explaining the parameter</li>
+<li><code>type</code> - Either <code>mulitplier</code> or <code>choice</code>. </li>
+<li><code>multiplier</code> means the parameter accepts a number</li>
+<li><code>choice</code> means the parameter accepts one of the options defined in the <code>options</code> field</li>
+<li><code>options</code> - An array of the valid inputs for the parameter.</li>
 </ul></li>
 </ul>
 
 <p>Example:</p>
 
-<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/referrals/subscribed?month=0&amp;api_token=7VLnggggg6S5xA9-9_a8&#39;
+<pre><code>$ curl -X GET --header &#39;Accept: application/json&#39; &#39;https://housecare.tokyo/api/estimates/required_fields?language=en&amp;api_token=7VLnggggg6S5xA9-9_a8&#39;
+
+[
+  {
+    &quot;parameter&quot;: &quot;stairs&quot;,
+    &quot;description&quot;: &quot;Information about stairs in the property&quot;,
+    &quot;type&quot;: &quot;choice&quot;,
+    &quot;options&quot;: [
+      &quot;have_stairs&quot;,
+      &quot;no_stairs&quot;
+    ]
+  },
+  {
+    &quot;parameter&quot;: &quot;living_room_count&quot;,
+    &quot;description&quot;: How many living rooms there are,
+    &quot;type&quot;: &quot;multiplier&quot;
+  }
+]
+</code></pre>
+
+<h1><code>POST /estimates</code></h1>
+
+<h3>Submit property information to retrieve a time estimate for cleaning</h3>
+
+<h2>Parameters:</h2>
+
+<ul>
+<li><code>property_id</code> - The ID of the property</li>
+<li>other parameters - The names of these parameters can be found by calling <code>GET /estimates/required_fields</code></li>
+</ul>
+
+<h2>Returns:</h2>
+
+<ul>
+<li><code>property_id</code> - The ID of the property this estimate was created for</li>
+<li><code>estimated_time_sec</code> - The number of seconds this property&#39;s time is estimated for</li>
+<li><code>created_at</code> - The time when this estimate was created</li>
+</ul>
+
+<p>Example:</p>
+
+<pre><code>$ curl -X POST --header &#39;Accept: application/json&#39; -d &#39;property_id=1737&amp;living_room_count=1&amp;stairs=have_stairs&#39; &#39;https://housecare.tokyo/api/estimates?api_token=7VLnggggg6S5xA9-9_a8&#39;
 
 {
-  &quot;subscribed&quot;: [
-    {
-      &quot;id&quot;: 3581,
-      &quot;created_at&quot;: &quot;2017-07-12T17:42:44.645+09:00&quot;,
-      &quot;ref&quot;: &quot;fdffe10593b4853b0205&quot;
-    },
-    {
-      &quot;id&quot;: 3582,
-      &quot;created_at&quot;: &quot;2017-08-12T17:42:44.645+09:00&quot;,
-      &quot;ref&quot;: &quot;d694c0a4c4dcc5654ddd&quot;
-    }
-  ]
+  &quot;property_id&quot;: 1737,
+  &quot;estimated_time_sec&quot;: 8100,
+  &quot;created_at&quot;: &quot;2017-08-15T17:17:18.440+09:00&quot;
 }
 </code></pre>
 
